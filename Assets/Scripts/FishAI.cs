@@ -80,7 +80,7 @@ public class FishAI : MonoBehaviour
     void ChooseNewDirection()
     {
         targetDirection = Random.onUnitSphere;
-        targetDirection.y *= 0.3f; // reduce vertical randomness to keep fish mostly horizontal
+        targetDirection.y *= 0.1f; // reduce vertical randomness to keep fish mostly horizontal
         targetDirection.Normalize();
     }
 

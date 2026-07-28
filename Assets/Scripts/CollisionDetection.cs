@@ -9,19 +9,16 @@ public class CollisionDetection : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        IDamageable damageable = other.GetComponent<IDamageable>();
         // Only react to objects tagged "Fish" while the spear attack animation is active
-        if (other.tag == "Fish" && wc.IsAttacking)
+        //if (other.tag == "Fish" && wc.IsAttacking)
+        if (damageable != null && wc.IsAttacking)
         {
             Debug.Log("[CollisionDetection] Hit: " + other.name);
 
-            // Notify the QuestManager that a fish was collected (if a quest is active)
-            if (QuestManager.Instance != null && QuestManager.Instance.IsQuestActive)
-            {
-                QuestManager.Instance.FishCollected();
-            }
-
             // Destroy the fish GameObject, removing it from the scene
-            Object.Destroy(other.gameObject);
+            //Object.Destroy(other.gameObject);
+            damageable.TakeDamage(5);
         }
     }
 }
