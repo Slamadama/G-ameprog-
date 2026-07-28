@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour, IDamageable
 {
+    public string fishName;
     public float maxHealth;
     public float currentHealth;
 
@@ -23,6 +24,10 @@ public class EnemyController : MonoBehaviour, IDamageable
     public void Die()
     {
         Debug.Log("Killed " + gameObject.name);
+
+        FishDiscovery discovery = Object.FindAnyObjectByType<FishDiscovery>();
+
+        discovery.DiscoverFish(fishName);
 
         // Notify the QuestManager that a fish was collected (if a quest is active)
         if (QuestManager.Instance != null && QuestManager.Instance.IsQuestActive)

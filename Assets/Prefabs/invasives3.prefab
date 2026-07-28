@@ -173,6 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aa663c835276a54e9b2f0e6f7d64b55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
+  fishName: Earl
   maxHealth: 5
   currentHealth: 5
 --- !u!114 &4149694772714142980

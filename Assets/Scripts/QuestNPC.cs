@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 // QuestNPC - A clickable / interactable NPC that gives the player a quest.
 // Place this script on a capsule GameObject positioned on land.

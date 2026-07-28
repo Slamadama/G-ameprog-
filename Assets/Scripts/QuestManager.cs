@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 // QuestManager - A persistent singleton that manages quest state and UI.
 // It creates its own Canvas and UI elements at runtime so no manual setup is needed.
@@ -207,6 +208,15 @@ public class QuestManager : MonoBehaviour
         if (questProgressText != null)
             questProgressText.text = "Fish: " + currentCount + " / " + currentTarget;
     }
+    IEnumerator HideCompletionMessage()
+    {
+        yield return new WaitForSeconds(3f);
+
+        if (completionText != null)
+        {
+            completionText.gameObject.SetActive(false);
+        }
+    }
 
     // Called when the fish target is reached
     void CompleteQuest()
@@ -218,6 +228,8 @@ public class QuestManager : MonoBehaviour
         {
             completionText.text = currentCompletionMessage;
             completionText.gameObject.SetActive(true);
+
+            StartCoroutine(HideCompletionMessage());
         }
 
         // Hide the progress panel
@@ -225,5 +237,17 @@ public class QuestManager : MonoBehaviour
             questPanel.SetActive(false);
 
         Debug.Log("[QuestManager] Quest completed: " + currentTitle);
+    }
+
+    public void HideQuest()
+    {
+        IsQuestActive = false;
+
+        if (questPanel != null)
+        {
+            questPanel.SetActive(false);
+        }
+
+        Debug.Log("[QuestManager] Quest hidden because boss spawned.");
     }
 }
