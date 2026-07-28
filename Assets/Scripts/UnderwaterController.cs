@@ -16,7 +16,7 @@ public class UnderwaterController : MonoBehaviour
 
     [Header("Underwater Fog")]
     public Color fogColor = new Color(0.2f, 0.4f, 0.55f); // bluish underwater fog color
-    public float fogDensity = 0.008f;                       // thickness of the fog (lower = clearer)
+    public float fogDensity = 0.002f;                       // thickness of the fog (lower = clearer)
 
     private CharacterController controller;
     private StarterAssets.StarterAssetsInputs input;
@@ -37,6 +37,28 @@ public class UnderwaterController : MonoBehaviour
         if (fpsController == null) fpsController = GetComponent<StarterAssets.FirstPersonController>();
         controller = GetComponent<CharacterController>();
         input = GetComponent<StarterAssets.StarterAssetsInputs>();
+
+        // Auto-fix CinemachineCameraTarget if it was lost during prefab unpacking
+        if (fpsController.CinemachineCameraTarget == null)
+        {
+            // Search children for a GameObject tagged "CinemachineTarget" or named "PlayerCameraRoot"
+            Transform root = transform.Find("PlayerCameraRoot");
+            if (root == null)
+            {
+                // Fallback: search all children recursively
+                foreach (Transform child in GetComponentsInChildren<Transform>())
+                {
+                    if (child.CompareTag("CinemachineTarget") || child.name == "PlayerCameraRoot")
+                    {
+                        root = child;
+                        break;
+                    }
+                }
+            }
+            if (root != null)
+                fpsController.CinemachineCameraTarget = root.gameObject;
+        }
+
         cameraTarget = fpsController.CinemachineCameraTarget.transform;
 
         // Save original FPC values so exiting water feels the same as before entering
